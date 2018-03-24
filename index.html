@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>My App</title>
+    <meta name="description" content="My App description">
+    <base href="/">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <!-- Load your application shell -->
+    <!-- <link rel="import" href="src/my-app.html"> -->
+
+</head>
+
+<body>
+    <h1>Demo Application</h1>
+
+    <div class="question-1">
+        <button onclick="printNumbers()">Print numbers</button>
+        <div id="result_1"></div>
+    </div>
+
+    <div class="question-3">
+        <button onclick="getData()">Get data</button>
+        <h3>Concatenated result
+            <span id="result_4"></span>
+        </h3>
+    </div>
+
+    <div class="question-4">
+        <button onclick="drawChart()">Draw graph</button>
+        <h3>Graph </h3>
+        <div id="result_4">
+        </div>
+    </div>
+
+
+
+</body>
+<script>
+    function printNumbers() {
+        let result = "";
+        for (let i = 1; i <= 100; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                result += "BizzAppz ";
+            }
+            else if (i % 3 == 0) {
+                result += "Bizz ";
+            }
+            else if (i % 5 == 0) {
+                result += "Appz ";
+            }
+            else {
+                result += i + ' ';
+            }
+        }
+
+        document.getElementById("result_1").innerHTML = result;
+    }
+</script>
+
+<script>
+    let myApp = myApp || {};
+    (function (namespace) {
+
+        //Parent class
+        let Car = function () { }
+        namespace.Car = Car;
+
+        Car.prototype.parentMethod = function () {
+            console.log("Parent method invoked");
+        }
+
+        //Child Class
+        let Audi = function () { }
+        namespace.Audi = Audi;
+
+        //Inheritence
+        Audi.prototype = Car.prototype;
+        Audi.constructor = Audi;
+
+        Audi.prototype.childMethod = function () {
+            console.log("Child method invoked");
+        }
+
+    })(myApp);
+
+    let obj = new myApp.Audi();
+    console.log("obj instanceof myApp.Audi ", obj instanceof myApp.Audi);
+    console.log("obj instanceof myApp.Car ", obj instanceof myApp.Car);
+    console.log("obj.childMethod()  ", obj.childMethod);
+    console.log("obj.parentMethod() ", obj.parentMethod);
+</script>
+
+<script>
+
+    function getData() {
+        let numberOfRequests = 2;
+        let response = '';
+
+        for (let index = 1; index <= numberOfRequests; index++) {
+            let request = new XMLHttpRequest();
+            let url = `https://cdn.gfkdaphne.com/tests/async.php?a=${index}`;
+
+            request.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    response += this.responseText;
+                    concatResponse(response);
+                }
+            }
+            request.open("GET", url, true);
+            request.send();
+        }
+
+        concatResponse = function (response) {
+            document.getElementById('result_4').innerHTML = response;
+        }
+    }
+</script>
+<script>
+
+    function drawChart() {
+
+        let request = new XMLHttpRequest();
+        let url = `./data.csv`;
+
+        request.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                onDataLoded(this.responseText);
+            }
+        }
+        request.open("GET", url, true);
+        request.send();
+
+
+        onDataLoded = function (response) {
+            document.getElementById('result_4').innerHTML = response;
+        }
+    }
+</script>
+
+</html>

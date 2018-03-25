@@ -1,7 +1,7 @@
 'use strict';
 var myApp = myApp || {};
 (function () {
-    myApp.GetData = function getData() {
+    myApp.GetData = () => {
         let outputElement = document.getElementById('result_3');
         outputElement.innerText = '';
 

@@ -1,7 +1,7 @@
 'use strict';
 var myApp = myApp || {};
 (function name(params) {
-    myApp.PrintNumbers = function printNumbers() {
+    myApp.PrintNumbers = () => {
         let result = "";
         for (let i = 1; i <= 100; i++) {
             if (i % 3 == 0 && i % 5 == 0) {

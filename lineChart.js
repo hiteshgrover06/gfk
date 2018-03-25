@@ -1,7 +1,7 @@
 'use strict';
 var myApp = myApp || {};
 (function () {
-    myApp.onFileInputChange = function onFileInputChange() {
+    myApp.onFileInputChange = () => {
         var reader = new FileReader();
         reader.onload = function () {
             var data = reader.result.split(";").join(" ").split("\n");
@@ -18,19 +18,18 @@ var myApp = myApp || {};
                     result[date].t++;
                 }
             }
-            document.getElementById('out').innerHTML = JSON.stringify(result);
+            // Fromatted object
+            document.getElementById('out').innerText = JSON.stringify(result);
 
             var xAxisData = [];
             var yAxisData = [];
             Object.keys(result).forEach(function (key) {
                 let yesPercentage = (result[key].y / result[key].t) * 100;
-
                 xAxisData.push(key);
                 yAxisData.push(yesPercentage);
             });
 
             var ctx = document.getElementById('canvas').getContext('2d');
-
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {

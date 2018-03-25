@@ -7,138 +7,50 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <title>My App</title>
     <meta name="description" content="My App description">
-    <base href="/">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-    <!-- Load your application shell -->
-    <!-- <link rel="import" href="src/my-app.html"> -->
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 </head>
 
 <body>
-    <h1>Demo Application</h1>
+    <div class="container">
+        <h1>Demo Application</h1>
 
-    <div class="question-1">
-        <button onclick="printNumbers()">Print numbers</button>
-        <div id="result_1"></div>
-    </div>
-
-    <div class="question-3">
-        <button onclick="getData()">Get data</button>
-        <h3>Concatenated result
-            <span id="result_4"></span>
-        </h3>
-    </div>
-
-    <div class="question-4">
-        <button onclick="drawChart()">Draw graph</button>
-        <h3>Graph </h3>
-        <div id="result_4">
+        <div class="question-1">
+            <h4>Question-1 Print numbers</h4>
+            <button class="btn btn-primary" onclick=" myApp.PrintNumbers()">Print</button>
+            <div id="result_1"></div>
+        </div>
+        <hr>
+        <div class="question-2">
+            <h4>Question-3 Inheritance example</h4>
+            <div id="result_2"></div>
+        </div>
+        <hr>
+        <div class="question-3">
+            <h4>Question-3 Concatenated string via API calls </h4>
+            <button class="btn btn-primary" onclick="myApp.GetData()">Get data</button>
+            <div id="result_3"></div>
+        </div>
+        <hr>
+        <div class="question-4">
+            <h4>Question-4 Line chart from selected CSV </h4>
+            <p>Select local CSV File:</p>
+            <input class="btn btn-primary" id="csv" type="file" onchange="myApp.onFileInputChange()">
+            <output id="out">
+                file contents will appear here
+            </output>
+            <div id="result_4">
+                <canvas id="canvas" height="500" width="700"></canvas>
+            </div>
         </div>
     </div>
 
-
+    <script src="printNumbers.js"></script>
+    <script src="inheritance.js"></script>
+    <script src="lineChart.js"></script>
+    <script src="getData.js"></script>
 
 </body>
-<script>
-    function printNumbers() {
-        let result = "";
-        for (let i = 1; i <= 100; i++) {
-            if (i % 3 == 0 && i % 5 == 0) {
-                result += "BizzAppz ";
-            }
-            else if (i % 3 == 0) {
-                result += "Bizz ";
-            }
-            else if (i % 5 == 0) {
-                result += "Appz ";
-            }
-            else {
-                result += i + ' ';
-            }
-        }
-
-        document.getElementById("result_1").innerHTML = result;
-    }
-</script>
-
-<script>
-    let myApp = myApp || {};
-    (function (namespace) {
-
-        //Parent class
-        let Car = function () { }
-        namespace.Car = Car;
-
-        Car.prototype.parentMethod = function () {
-            console.log("Parent method invoked");
-        }
-
-        //Child Class
-        let Audi = function () { }
-        namespace.Audi = Audi;
-
-        //Inheritence
-        Audi.prototype = Car.prototype;
-        Audi.constructor = Audi;
-
-        Audi.prototype.childMethod = function () {
-            console.log("Child method invoked");
-        }
-
-    })(myApp);
-
-    let obj = new myApp.Audi();
-    console.log("obj instanceof myApp.Audi ", obj instanceof myApp.Audi);
-    console.log("obj instanceof myApp.Car ", obj instanceof myApp.Car);
-    console.log("obj.childMethod()  ", obj.childMethod);
-    console.log("obj.parentMethod() ", obj.parentMethod);
-</script>
-
-<script>
-
-    function getData() {
-        let numberOfRequests = 2;
-        let response = '';
-
-        for (let index = 1; index <= numberOfRequests; index++) {
-            let request = new XMLHttpRequest();
-            let url = `https://cdn.gfkdaphne.com/tests/async.php?a=${index}`;
-
-            request.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    response += this.responseText;
-                    concatResponse(response);
-                }
-            }
-            request.open("GET", url, true);
-            request.send();
-        }
-
-        concatResponse = function (response) {
-            document.getElementById('result_4').innerHTML = response;
-        }
-    }
-</script>
-<script>
-
-    function drawChart() {
-
-        let request = new XMLHttpRequest();
-        let url = `./data.csv`;
-
-        request.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                onDataLoded(this.responseText);
-            }
-        }
-        request.open("GET", url, true);
-        request.send();
-
-
-        onDataLoded = function (response) {
-            document.getElementById('result_4').innerHTML = response;
-        }
-    }
-</script>
 
 </html>

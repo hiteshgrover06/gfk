@@ -11,9 +11,11 @@ var myApp = myApp || {};
                 let isYes = data[i].split(" ")[2].trim() == "yes";
 
                 if (!result[date]) {
-                    result[date] = { y: isYes ? 0 : 1, t: 1 };
-                }
-                else {
+                    result[date] = {
+                        y: isYes ? 0 : 1,
+                        t: 1
+                    };
+                } else {
                     isYes && result[date].y++;
                     result[date].t++;
                 }
@@ -41,6 +43,22 @@ var myApp = myApp || {};
                         borderColor: 'rgb(44, 109, 214)',
                         borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Percentage"
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Date (Timeline)"
+                            }
+                        }]
+                    }
                 }
             });
 
